@@ -1,0 +1,20 @@
+# Something on this machine keeps re-saving discripper_gui.py with CRLF line
+# endings, which turned a four-line change into a 9,697-line diff and hid what
+# the change actually was. Git now stores LF whatever the working tree holds,
+# so an editor's habits stop showing up in the history.
+*.py    text eol=lf
+*.md    text eol=lf
+*.toml  text eol=lf
+# .cmd is read by cmd.exe, which wants the carriage returns
+*.cmd   text eol=crlf
+*.ico   binary
+*.wav   binary
+# LICENSE has no extension and portable.txt was not covered, so both were
+# written out by a Python script - write_text() translates \n to \r\n on
+# Windows - and committed as CRLF while every .py beside them was LF.
+LICENSE text eol=lf
+portable.txt text eol=lf
+# NOT *.txt: measurements/data holds captured terminal output whose
+# interior CRs are progress-bar redraws, not line endings, and
+# normalising those rewrites the measurement.
+measurements/data/** -text
