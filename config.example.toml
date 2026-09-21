@@ -1,0 +1,1211 @@
+# DiscRipper 0.9.0 - example configuration
+#
+# Copy to config.toml, or just run the app: it writes one from these
+# same defaults on first start. Every setting here is also on the
+# Settings tabs in the GUI, with this same description, so editing
+# this file by hand is a convenience and never a requirement.
+
+[general]
+# Which optical drive to use. 'auto' picks the one with a disc in it, or
+# asks when several have discs.
+drive = "auto"
+
+# auto | audio | dvd | bluray | data (force detection)
+media_type = "auto"
+
+# What to do when the output file already exists: skip it, overwrite it, or
+# save alongside as 'name (2)'.
+# one of: skip | overwrite | rename
+overwrite = "skip"
+
+# Hash written next to every output (and into the sidecar) so you can prove
+# the file never rotted. 'none' skips the extra read.
+# one of: none | md5 | sha1 | sha256
+checksum = "sha256"
+
+# full-decode every output with ffmpeg afterwards
+verify = false
+
+# write a .ripinfo.json provenance file
+sidecar = true
+
+# Open the tray when a rip finishes - the cue to swap in the next disc.
+eject_after = true
+
+# Open Explorer at the finished rip.
+open_folder = false
+
+# GUI appearance: dark | light. Also on the window's View menu; changing it
+# either way is remembered.
+theme = "dark"
+
+# one folder for everything, when you would rather not set a place per kind
+# of disc. It replaces the built-in defaults but never a folder you have
+# chosen yourself, so filling it in moves everything you have not already
+# pinned somewhere and nothing you have. A per-kind folder given as a
+# relative name (say 'Films') lands inside this one.
+out_dir = ""
+
+# keep a small always-on-top strip showing the progress bar, so it stays
+# readable while you work in other windows. It reads 'No rip in progress'
+# when nothing is running. Also on the View menu; drag it anywhere,
+# right-click it to hide it.
+mini_monitor = false
+
+# float = a strip lying anywhere on the desktop. taskbar = sized to the
+# taskbar's own height and parked inside it beside the clock, so it reads as
+# part of the taskbar rather than a window on top of it. A docked strip is
+# only resized sideways - its height is the taskbar's.
+mini_monitor_dock = "float"
+
+# where that strip sits, as x,y. Written whenever you drag it - clear this
+# to put it back above the taskbar on the right, or beside the clock when
+# docked.
+mini_monitor_pos = ""
+
+# how wide that strip is, in pixels. Written when you drag its right-hand
+# edge; 0 sizes it to fit whatever it is showing.
+mini_monitor_width = 0
+
+# how tall a floating strip is, in pixels. Written when you drag its bottom
+# edge; 0 is just enough for its three lines. Ignored while it is docked,
+# where the height is the taskbar's and the bottom and corner grips are
+# taken away.
+mini_monitor_height = 0
+
+# how much that strip shows. auto suits it to the size you have dragged it
+# to, showing more as there is room for more: minimal = the disc and a bar,
+# compact = and the percentage, normal = and how many bytes are done, left
+# and to go, full = and the elapsed time, the rate and which drive it is
+# reading, detailed = and a line saying what the disc is and where it is
+# going, log = and the tail of the activity log, which turns a large strip
+# into the window in miniature. Naming one pins it there whatever the size -
+# except that the last two need a spare line to appear on, so a short strip
+# will not show them however it is set.
+mini_monitor_detail = "auto"
+
+# how solid that strip is, from 20 to 100 percent. Below 100 whatever is
+# behind it shows through, which suits a strip lying over a window you are
+# working in.
+mini_monitor_opacity = 94
+
+# blink that strip green when a rip finishes, or red when one fails - three
+# blinks, about half a second. A rip is long enough that nobody is watching
+# the moment it ends.
+mini_monitor_flash = true
+
+# keep the floating strip above every other window. Off makes it an ordinary
+# window that anything can cover, which suits leaving it on a second screen.
+# A strip sitting in the taskbar ignores this - it is an overlay inside a
+# window that is always on top, so it has to be too.
+mini_monitor_top = true
+
+# fill the taskbar button with the rip's progress the way Explorer does when
+# copying files: amber if a rip stalls, red if it fails. Visible with the
+# window minimised.
+taskbar_progress = true
+
+# put the window in the notification area as soon as a rip starts, leaving
+# the pinned strip and the tray icon's tooltip to report it. View ->
+# Collapse to the notification area (Ctrl+M) does the same by hand; clicking
+# the icon brings the window back.
+collapse_on_rip = false
+
+# Master switch for desktop popups. Sounds are separate and keep working
+# when this is off.
+notify = true
+
+# auto | toast | messagebox | both | none (auto falls back to a message box
+# if the toast does not appear)
+notify_style = "auto"
+
+# command run after each rip (DISCRIPPER_OUT/_TYPE env vars)
+hook = ""
+
+# Shut the PC down when the rip finishes, with a 60-second grace period
+# ('shutdown /a' aborts).
+shutdown_after = false
+
+# A named bundle of overrides applied at every startup. Blank = just use
+# these settings.
+profile = ""
+
+# Which one-button mode the settings came from. Archival keeps the disc
+# exactly; portable makes a small viewing copy. Changing anything by hand
+# makes it 'custom'.
+mode = "archival"
+
+# your MakeMKV key (travels with a portable copy)
+makemkv_key = ""
+
+# true = start unattended auto-rip as soon as you launch
+auto_rip = false
+
+# what auto-rip takes: largest | main | all
+auto_titles = "largest"
+
+# auto-rip naming: plain (disc label, no year) | movie | tv
+auto_naming = "plain"
+
+# auto-rip: rip audio CDs it finds
+auto_audio = true
+
+# auto-rip: rip DVDs / Blu-rays it finds
+auto_video = true
+
+# auto-rip: rip data discs it finds
+auto_data = true
+
+# mixed-mode CD: audio | data | both | skip
+auto_mixed = "audio"
+
+# if every title fails, retry the disc in backup mode without asking
+auto_fallback_backup = true
+
+# In auto-rip, when a disc has failed every ordinary attempt, run the
+# salvage ladder before moving on: capture the keys, image what the disc
+# will give, unpack it, say what is missing, and rip from the copy. Without
+# it a failed disc in an unattended stack is abandoned and everything read
+# is thrown away - which is the exact failure the recovery work exists to
+# stop, left in place in the one mode where nobody is watching. NOT bounded
+# in time: general.auto_salvage_minutes sounds like it does that and does
+# not, and only general.auto_disc_minutes (0 by default) gates whether it
+# starts. One bad disc CAN eat the stack - measured, six hours. See backlog
+# 50.
+auto_salvage_ladder = true
+
+# How long the salvage ladder will wait for a drive that has dropped off the
+# bus before giving up on the disc. It does NOT cap the ladder's own runtime
+# - imaging a damaged Blu-ray has taken over two hours here - and the name
+# has meant otherwise for longer than it should have. See backlog 50.
+auto_salvage_minutes = 90
+
+# During salvage, fill runs of zeros in the recovered stream with real AACS
+# aligned units copied from just before them, so a reader can cross a gap
+# instead of stopping at it. Done to the UNPACKED COPY, never the image, so
+# it is reversible. It is the step that got one film out: MakeMKV would not
+# traverse a 7.86 MB run of zeros at 98.72% and threw after reading all 27.4
+# GB, with 343 MB of good recovered video beyond it. The cost is that the
+# picture repeats a few seconds at each gap, and the copied units keep
+# timecodes that run backwards - which ffmpeg regenerates and MakeMKV's
+# muxer refuses.
+salvage_bridge = true
+
+# read only the sectors the film occupies. Which those are is read out of
+# the disc's own filesystem and playlists, so it costs nothing to work out.
+# On a Blu-ray it is about 30% less disc - the rest is menus, trailers,
+# deleted scenes and dubs - and on a drive that is struggling it is 30% less
+# chance of losing the medium before the film is off
+feature_only = true
+
+# how many times to re-read a band the drive was caught fabricating. Each
+# pass asks differently - forward, backward, then in smaller requests - and
+# returns a different set of correct units, which is why re-reading gains
+# anything. Measured on two bands, both were still gaining on the third
+# pass, so 5 is the default; it stops early when a band recovers or when two
+# passes running find nothing
+verify_passes = 5
+
+# when a mux stops short of what the playlist promises, look for the
+# earliest point past the damage that will play and join the pieces.
+# Measured on one disc: a sequential read stopped at 54:12 and everything
+# from 54:38 to the end read perfectly
+salvage_segments = true
+
+# Capture discatt.dat off a Blu-ray before reading any titles. About a
+# minute, and it reads only the start of the disc. Without it an image or
+# file copy of the disc CANNOT be decrypted later, because AACS needs the
+# volume ID and that is not in any sector: measured on one disc, MakeMKV
+# opened a 27 GB image, parsed every playlist, and then failed every title
+# with 'invalid mux'. With the file, the same copy decrypted with no disc in
+# the drive. On a disc that keeps killing the drive this is the difference
+# between having another try and not.
+capture_disc_keys = true
+
+# Where discatt.dat goes once the film is out: 'with_film' moves it into the
+# film's own folder, 'delete' throws it away, 'keep' leaves the separate
+# folder it was written to. It is 1.4 KB and only matters if this disc comes
+# back for a salvage - then it saves a minute of reading, and on a disc that
+# kills the drive possibly the only attempt left.
+keys_after_rip = "with_film"
+
+# Let the encode finish AFTER the disc comes out. A rip owns the drive from
+# the moment the disc goes in until the encode is done, and only the first
+# part needs the disc - measured here, a Blu-ray title rip is 31-50 minutes
+# and its encode another 13-29, so about a third of every disc's time was
+# spent with the tray shut on a disc nothing was reading. 'auto' defers only
+# when another disc is expected (the auto-rip loop); 'always' defers a
+# single rip too; 'off' is the old behaviour. One encode runs at a time
+# whatever this says - two on one GPU are not twice as fast.
+background_tail = "auto"
+
+# When every title fails, try muxing the same source with ffmpeg before
+# suggesting anything that reads the disc again. MakeMKV failing to WRITE is
+# not the disc failing to READ: on one film MakeMKV read all 27.4 GB,
+# reached 100%, and refused to save because its muxer rejects timecodes that
+# run backwards - ffmpeg regenerates them and muxed it in 118 seconds. Needs
+# an ffmpeg built with libbluray and libaacs beside it; it says so and does
+# nothing if either is missing.
+ffmpeg_mux_fallback = true
+
+# After an encode, check that every video and audio stream actually reaches
+# the end of the film, and refuse to call it done if one does not. Worth
+# leaving on: a container's duration is taken from its LONGEST stream, so a
+# file whose 7.1 audio stopped at 29:16 of 97:54 passed every other check
+# here and was reported as a successful encode. Subtitles are exempt - they
+# end with their last caption.
+verify_streams = true
+
+# How many seconds short a stream may be before it counts as truncated. A
+# few seconds is normal: an audio frame is not the same length as a video
+# frame, and the last one lands where it lands.
+verify_tolerance_s = 10
+
+# before an encode starts, decode nine short windows of the lossless and
+# count the decoder's complaints. A film that came off a damaged or
+# still-encrypted disc fails loudly here. Not fatal - the encode runs anyway
+# - but the lossless is kept whatever video.keep_original says, so there is
+# something left to re-make from.
+verify_picture = true
+
+# Whether a failed title rip still falls back to a whole-disc backup when
+# the cause was the drive being unable to read the disc. Off, because a
+# backup reads the same physical sectors: measured on one disc it spent 43
+# minutes on 11.79 GB of extras, reached the feature, and stopped 2.4 MB
+# from where the title rip had stopped. Seventy minutes, no film. Worth
+# turning on when the damage is small enough that backup mode's greater
+# tolerance might get past it - it logged 6 read errors where the title rip
+# logged 59. Structure, BD+ and decrypt failures still fall back regardless;
+# that is what backup mode is actually good at.
+backup_on_read_errors = false
+
+# extra whole-disc attempts before calling it failed
+auto_retries = 1
+
+# An unattended run has a retry budget in ATTEMPTS but not in TIME, and time
+# is what a stack of discs runs out of. One damaged Blu-ray consumed six
+# hours here - four attempts plus a whole-disc backup - while other discs
+# waited. Attempts are cheap on a healthy disc and enormous on a failing
+# one, so this caps the failing case. 0 = no limit.
+auto_disc_minutes = 0
+
+# When a disc fails on read errors, the things most likely to fix it cannot
+# be automated: a different drive, a clean, mains power to a bus-powered USB
+# drive. So the app says so and then waits this long in case somebody is
+# there, before spending the automatic retries - which are the part that
+# costs hours. Taking the disc out and putting it back is noticed and starts
+# a fresh full-quality attempt, because after a clean or a drive swap that
+# attempt is the one that matters. Nothing is lost if nobody is there; the
+# window closes and the ladder carries on. 0 turns it off.
+manual_window_minutes = 5
+
+# what happens after every title on a disc has failed, in the order it
+# happens. The default is ffmpeg (mux it with a different muxer - minutes,
+# and it re-reads nothing), then salvage (image the disc and rebuild the
+# film from it), then backup (whole-disc decrypted copy, which is good at
+# BD+ and playlist trouble and no help at all with read errors). "wait" - a
+# pause for a hands-on fix - is available and off, because an unattended run
+# is the common case. Reorder them or take any out; an empty list means stop
+# at the first failure
+fallback_order = ["salvage", "backup"]
+
+# Write a CSV beside the session log recording, every couple of seconds,
+# where the rip is, how fast it is reading, and how many errors the drive
+# has reported. It exists because a failure used to leave one line of engine
+# output to argue over, and over one evening the explanation for a stalling
+# Blu-ray moved from a missing Java runtime to physical damage to bus power
+# to a lost medium to a rejected command - each inferred from a single line,
+# most of them wrong. A curve settles what a line cannot: where the drive
+# slowed, whether it was degrading beforehand, and whether a second attempt
+# slows in the SAME place, which is the comparison that separates the disc
+# from the conditions. Costs one stat() every couple of seconds on data the
+# progress bar already reads.
+timeline = true
+
+# write one machine-readable line per event (stalls, rate collapses,
+# retries, recoveries) beside the rip. This is what the salvage numbers are
+# read back out of afterwards.
+riplog = true
+
+# When a disc fails and there is another attempt to come, re-seat it and
+# read the surface first. The re-seat alone fixes a good share of read
+# errors - the sled re-homes and the disc re-centres - and the scan replaces
+# 'it failed' with which sectors are unreadable, keeping an image of
+# everything that did read. Costs one pass over the disc.
+auto_salvage = true
+
+# stop the run after this many discs; 0 = keep going until you stop it.
+# Useful when you have counted the stack, or when the disk has room for a
+# known number.
+auto_stop_after = 0
+
+# give up waiting for the next disc after this many minutes and finish the
+# run; 0 waits for ever. Turns an overnight stack into something that ends
+# by itself, which is what makes 'shut down afterwards' safe to leave on.
+auto_wait_minutes = 0
+
+# continue = keep going through the stack and report the failures at the end
+# (the default; one scratched disc should not end the night). stop = halt on
+# the first failure, for when a failure means something is wrong with the
+# drive rather than the disc.
+auto_on_failure = "continue"
+
+# write a CSV of the run - disc, type, result, size, how long it took -
+# beside the session logs, so a stack ripped overnight can be checked in the
+# morning without reading the log.
+auto_report = true
+
+# when a disc's volume label is not a name - gibberish like Crz0Nnw7#B679,
+# or a placeholder like DVD_VIDEO - look for a real one on the disc instead:
+# a Blu-ray's BDMV/META title, a DVD's provider ID, the one folder on a data
+# disc. Failing all of those it is called 'Untitled DVD' rather than the
+# gibberish. The original is kept in the sidecar either way, and the disc's
+# identity still goes by it, so two unnamed discs are not mistaken for each
+# other.
+smart_disc_names = true
+
+
+[tools]
+# explicit path, blank = auto-discover
+makemkvcon = ""
+
+# explicit path, blank = auto-discover
+ffmpeg = ""
+
+# explicit path, blank = auto-discover
+ffprobe = ""
+
+# explicit path, blank = auto-discover
+handbrake = ""
+
+# explicit path, blank = auto-discover
+cyanrip = ""
+
+
+[audio]
+# Where CD rips go. cyanrip creates an 'Artist - Album' folder inside it per
+# disc.
+out_dir = "~/Music/Rips"
+
+# csv: flac, wav, alac, wavpack, opus, mp3, aac, vorbis
+formats = ["flac"]
+
+# How hard FLAC works to pack the audio. It is lossless at every level - 8
+# is simply the smallest file, and only encoding takes longer.
+# one of: 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0
+flac_level = 8
+
+# Bitrate for lossy formats only (opus/mp3/aac/vorbis). FLAC and WAV ignore
+# it.
+bitrate = 320
+
+# Cap the drive's read speed. Slower is quieter and often reads scratched
+# discs more reliably. 0 = no limit.
+speed = 0
+
+# How many times to re-read a sector that won't read cleanly before giving
+# up on it. Higher = slower but recovers more from damaged discs.
+retries = 25
+
+# How hard cyanrip works to be certain each sample is right: 3 re-reads and
+# cross-checks everything, 0 reads once and trusts the drive. Lower is
+# faster and riskier.
+# one of: 3 | 2 | 1 | 0
+paranoia = 3
+
+# read lead-in/out (some drives freeze)
+overread = false
+
+# cyanrip folder template, blank = its default
+dir_scheme = ""
+
+# cyanrip track template, blank = its default
+track_scheme = ""
+
+# drive read offset in samples, or auto
+offset = "auto"
+
+# What to do with the hidden audio some albums bury before track 1: leave it
+# to the drive, save it as its own track (HTOA), merge it into track 1, or
+# discard it.
+# one of: default | track | merge | drop
+pregap = "default"
+
+# Which tracks to rip: 'all', or a list like 1,3,5-7.
+tracks = "all"
+
+# Download album art and embed it in the files.
+cover_art = true
+
+# online metadata; false = fully offline
+musicbrainz = true
+
+# extra cyanrip flags, appended verbatim
+extra_args = ""
+
+# full override: {device} {outdir} {formats}
+custom_command = ""
+
+
+[video]
+# Where DVD and Blu-ray rips go.
+out_dir = "~/Videos/Rips"
+
+# Where DVD rips go, if you want them somewhere other than Blu-rays. Blank
+# uses the folder above.
+dvd_out_dir = ""
+
+# Where Blu-ray rips go, if you want them somewhere other than DVDs - a
+# Blu-ray is five times the size and often wants its own drive. Blank uses
+# the folder above.
+bluray_out_dir = ""
+
+# remux = one lossless MKV per title (menus dropped) - the usual choice.
+# backup = whole decrypted disc as a folder, keeps everything. iso = raw
+# image, stays encrypted on commercial discs.
+mode = "remux"
+
+# Which titles to take: 'main' (longest), 'all', or a list like 1,3.
+# 'largest' picks the biggest by file size, which is usually the actual
+# feature.
+titles = "main"
+
+# Ignore titles shorter than this many seconds. Hides the studio idents and
+# menu loops a disc is full of.
+min_length = 120
+
+# Ignore titles LONGER than this many seconds; 0 keeps them all. For TV box
+# sets, whose longest title is usually every episode played back to back -
+# take 'all' from one of those and you get the disc twice, once in pieces
+# and once in a four-hour lump. 5400 (90 minutes) suits most episodic discs.
+max_length = 0
+
+# Never take more than this many titles from one disc; 0 takes as many as
+# match. Applied in disc order, so on an episodic disc you get the first N
+# episodes rather than the N biggest files, and it says which ones it
+# dropped.
+max_titles = 0
+
+# Which audio tracks to keep - 'all', or codes like eng,jpn. Filtering is a
+# lossless stream copy.
+audio_langs = "all"
+
+# Which subtitle tracks to keep: 'all', 'none', or codes like eng,fre.
+sub_langs = "all"
+
+# Once the languages are chosen, how many tracks of each. 'all' keeps every
+# one, which is what an archive wants. 'best' keeps the highest-ranked track
+# of each language - most channels, then most bits - and drops commentary.
+# Measured on a real library that is about 232 MiB a film and 15 GiB
+# overall. BUT 'best' CAN COST YOU THE ONLY TRACK THAT PLAYS: this used to
+# claim a stereo track is redundant because a player makes its own, and that
+# is not always true. Measured on Bluetooth headphones - A2DP is stereo
+# only, so a surround track has to be decoded, downmixed and re-encoded in
+# real time, and multichannel Opus through that chain stalled about twice a
+# second while the disc's own stereo track played perfectly. Keep 'all' if
+# anything in the house listens over Bluetooth.
+audio_tracks = "all"
+
+# Add a stereo track downmixed from the widest surround track, alongside
+# whatever the disc gives. On, because the disc's own stereo track cannot be
+# trusted to be the film and a surround track cannot always stand in for
+# one. Measured: a disc labelled its audio DESCRIPTION track "Stereo" with
+# nothing anywhere - MakeMKV, the flags field, the container - to say so,
+# and it was found only by someone hearing narration no character speaks.
+# And Bluetooth is stereo only, so a surround track has to be downmixed
+# live, which stalled about twice a second on real headphones. A track we
+# make ourselves is the film by construction and plays anywhere - about 100
+# MB on a two-hour film. Turn it off if you only ever listen on speakers and
+# trust the disc.
+stereo_downmix = true
+
+# Which tracks MakeMKV puts in the file in the first place. This happens
+# before anything here can filter, so it is the setting that decides what
+# the others are even able to choose from. 'all' keeps every track the disc
+# has. 'makemkv' hands the decision back to MakeMKV, whose own rule is to
+# keep its favourite language, whatever has no language, and anything that
+# is the only track of its kind - so on a disc with English and Japanese
+# audio the Japanese never reaches the file, and no re-encode afterwards can
+# put it back.
+makemkv_tracks = "all"
+
+# A DTS-HD MA track contains its own lossy core, and MakeMKV also extracts
+# that core as a separate track - so the file carries the same mix twice. On
+# the first Blu-ray measured here both streams had exactly 571,699 packets
+# and the copy was 1.071 GiB of a 6.56 GiB film. Dropping it costs nothing,
+# because any DTS decoder can still play the MA track. Turn it off only to
+# reproduce the disc's stream list exactly. Does NOT touch the AC-3 core
+# beside a TrueHD track: a TrueHD stream in Matroska does not contain that
+# one, so a player without TrueHD would be left with nothing.
+drop_core_audio = true
+
+# Most Blu-rays carry a Java application that draws the menus and chooses
+# which playlist plays, and some use that as protection: the disc holds many
+# near-identical copies of the film with the scenes reordered, only one
+# real, and the disc's own Java program is what picks it. MakeMKV needs a
+# Java runtime to run that. Without one the disc still opens, but every fake
+# is present and indistinguishable - and since titles are chosen
+# automatically here, that is a coin toss. A fake playlist can also point
+# the drive at parts of the disc that are not there, which arrives as
+# unreadable sectors and looks like a scratch. Measured on one disc: 12.66
+# GiB of an unidentifiable title, 26 read errors, failed, twice, half an
+# hour each. 'warn' says so and rips anyway, since many BD-J discs are fine
+# without it. 'skip' gives up instead of spending the time to find out -
+# what an unattended stack wants.
+bdj_no_java = "warn"
+
+# What to do when the drive cannot read part of a disc. 'salvage' spends one
+# more attempt with MakeMKV's io_IgnoreReadErrors set, which may get further
+# - it is not a fix, and MakeMKV's author is clear the engine does not skip
+# bad sectors. It is worth the attempt because a title rip otherwise throws
+# away everything it had already read: measured on one Blu-ray, four
+# attempts each read about 14.5 GB and discarded all of it. Anything that
+# does come out is labelled salvaged, never a clean rip. 'stop' skips the
+# extra attempt.
+# one of: salvage | grind | stop
+on_read_errors = "salvage"
+
+# Hold the drive at this multiple of 1x for the whole rip - 2 is about 9
+# MB/s on a Blu-ray, 0 means as fast as it will go. Worth setting for a disc
+# that is scratched, marked or simply old: slower past the head is more time
+# per sector for the drive's own error correction, and it is what gets
+# through most rough patches. Measured reason it exists: on one Blu-ray this
+# drive read the outer tracks at 18.6 MB/s and dropped the disc entirely
+# four times, always inside a band it was fighting at that speed. A rip that
+# takes twice as long and finishes beats a fast one that does not.
+# one of: 0 | 2 | 4 | 6 | 8 | 12
+read_speed_x = 0
+
+# How many reads the drive may REFUSE before the imager stops asking and
+# records the rest as untried rather than bad. 0 means no limit, which suits
+# a drive that tolerates grinding. Set it to 1 on a drive that drops the
+# medium when it is fought: measured on this hardware over four controlled
+# trials with the read speed crossed between them, the FIRST refusal after a
+# replug was survivable at both 2x and full speed, and the SECOND took the
+# drive off the bus at both. What costs the medium is being asked twice, not
+# being asked quickly - so this, not a speed cap, is the lever that keeps an
+# unattended run alive.
+fight_budget = 0
+
+# How hard the whole salvage tries, in one word. quick, normal, thorough or
+# exhaustive - and 'thorough' is what shipped before this dial existed,
+# which is why it is the default. It sets three things and only three,
+# because measured across every run on this machine the others do not move a
+# two-hour job: how long backtrack may spend, how long the imager grinds at
+# each bad place, and how many verified re-read passes a fabricated band
+# gets. Anything you set yourself wins over the level.
+salvage_effort = "thorough"
+
+# How long a hole has to be, in seconds of film, before the imager re-reads
+# it one sector at a time. Measured on a real disc: eleven seconds per dead
+# sector, on contiguous damage, which makes 35.7 MB of bad blocks 53 hours
+# of work - and the only thing stopping it was a fifteen-minute-per-band
+# budget. But the bands were 0.44s, 3.6s, 0.44s and 3.1s of film, and
+# spending a quarter of an hour on four tenths of a second is not a trade
+# anybody would make on purpose. Each hole is judged on its OWN length,
+# never on the total: six separate one-second holes are six blinks, one
+# six-second hole is a scene going missing. Holes left alone are still
+# recorded as unreadable and still bridged. 0 chases everything, however
+# small.
+backtrack_min_seconds = 1.0
+
+# How many seconds backtrack and the retries may spend on one phase before
+# leaving the rest of the holes alone. 0 is no clock. Measured across every
+# recorded run: 97% of backtrack's time has returned nothing, and everything
+# it ever recovered came back inside 127 seconds. Nothing is condemned by
+# the clock - the holes are unchanged and a re-run can walk them.
+backtrack_seconds_max = 300.0
+
+# Encode ten-bit on the GPU even from an eight-bit source. Measured -3% to
+# -5% file size at the same VMAF on two films and two source codecs, at no
+# time cost. On, because AV1's Main profile is defined as 8 OR 10 bit and a
+# hardware decoder implements the profile rather than a subset - so anything
+# that plays AV1 at all plays this. VLC has reports of green screens on
+# 10-bit under D3D11VA; that is a bug in one player's acceleration path,
+# fixed by a setting in that player rather than by encoding worse. Turn it
+# off if something in your chain genuinely cannot cope.
+nvenc_10bit = true
+
+# A second surround track in a codec a television can play: off | eac3 |
+# ac3. Opus is the more efficient codec and the one no living-room device
+# reliably plays in surround - no AV receiver decodes it at all, so it can
+# never be bitstreamed over HDMI, and Roku, LG webOS and Fire TV each break
+# on it differently. E-AC-3 bitstreams natively. Costs about 430 MB on a
+# three-hour film at 384 kbps.
+extra_surround = "off"
+
+# bitrate for the extra surround track
+extra_surround_kbps = 384
+
+# How hard to chase the unreadable holes a first pass leaves behind. Walking
+# one costs about eleven seconds a sector on this drive, so the choice is
+# real: 'cautious' only bothers with holes over 4s of film, 'balanced' over
+# 1s, 'thorough' over a quarter of a second. 'ask' stops when the first pass
+# is done and asks - by then it knows how many holes there are and what
+# walking them would cost, which is the only point at which the question can
+# be answered properly. It alerts when it asks, so an unattended run does
+# not sit waiting unnoticed.
+repair_effort = "balanced"
+
+# How long the first pass may keep asking one bad band before it steps past
+# and comes back for it later. A read this drive cannot do costs about 260
+# seconds that nothing can shorten, so the clock is only checked between
+# reads and the real step lands at the budget plus up to one whole read - a
+# 10-minute budget was measured stepping past at 13.1. Stepping past no
+# longer writes the stretch off: the pass returns to it from the far end,
+# which is where the readable part of it is.
+# one of: quick | normal | patient | exhaustive
+grind_effort = "normal"
+
+# How much the imager asks for in one read, in SECTORS of 2 KB. Measured
+# rather than chosen: the drive spends its entire error-recovery budget -
+# about 262 seconds - on any request of 32 sectors or more, because 32
+# sectors is one Blu-ray error-correction cluster, and about 3.6 seconds on
+# anything under it. Eight through thirty-one all read at the same speed and
+# score identically over 1,144 simulated films; 16 is chosen inside that
+# because it tiles a cluster two-to-one, so a block never straddles one.
+# Raise it above 32 and every damaged region costs minutes instead of
+# seconds. This was read_block_mb, in megabytes, which could not express 32
+# KB at all - a config carrying its old default of 2 silently reverted the
+# measurement.
+# one of: 8 | 16 | 32 | 1024
+read_block_sectors = 16
+
+# How much the imager asks for in one read while nothing has failed.
+# Measured on this machine, every unbuffered read costs the best part of a
+# second before a byte moves, so a bigger block is mostly amortising that: 2
+# MB reads managed a sixth to a seventh of what 128 MB reads did. It drops
+# back to video.read_block_sectors the moment a read fails, so this size
+# never governs a damaged region. 0 switches the idea off and reads
+# video.read_block_sectors throughout.
+# one of: 0 | 32 | 64 | 128 | 256
+read_block_fast_mb = 0
+
+# how many consecutive good reads earn the larger block back. Any read
+# failure drops the sweep to read_block_sectors at once; it only widens
+# again after this many clean reads, so one bad sector near the start does
+# not condemn the rest of a clean disc to small reads.
+read_block_settle = 64
+
+# on every third rate collapse, re-read a region already known to be good. A
+# wedged drive refuses everything identically, so without a control read in
+# the same run a wedge reads as a finding about the disc.
+rate_ladder_control = true
+
+# re-ask in whole error-correction clusters (32 sectors on a Blu-ray, 16 on
+# a DVD) rather than one sector at a time. A drive cannot return less than a
+# cluster, so sector-by-sector probing pays many times the drive time for
+# the same map.
+backtrack_cluster_reads = false
+
+# When the drive stops serving data but still accepts handles - the SHALLOW
+# wedge - eject and close the tray once before waiting. MEASURED 31 Aug:
+# that put an identically-stuck drive back to ready in about fifteen
+# seconds, and it then read a whole 29 GB disc with no errors. Off by
+# default because ejecting a disc is a physical act and an unattended run
+# should not perform one unasked. The DEEP wedge, where the class driver
+# refuses data handles at all, ignores it.
+unwedge_tray_cycle = false
+
+# While a read is stalling, cap the drive - 4x on the second stall, 2x on
+# the third - instead of waiting for the attempt to fail and capping on the
+# next one. The retry ladder already reads at 2x, but only after the current
+# attempt has been thrown away: on one disc that was 14.5 GB of good video
+# discarded before anything slowed down, and by then the bad band had been
+# hit at full speed as many times as the drive would take. This keeps the
+# attempt that is already running and just reads it more gently. Full speed
+# - or video.read_speed_x, if you set one - comes back as soon as the read
+# moves again. Drives that refuse the IOCTL say so and carry on unchanged.
+slow_on_stall = false
+
+# speed multiples to fall back through as stalls pile up - "4, 2" caps the
+# drive at 4x on the second stall and 2x on the third. More time per sector
+# past the head is more time for the drive's own error correction. Empty
+# means never cap
+stall_slow_x = [4.0, 2.0]
+
+# Whether to copy the subtitle tracks on in a second pass instead of muxing
+# them during the encode. 'auto' does it when there are subtitles AND the
+# audio is being re-encoded, which is the combination that silently lost 68
+# minutes of sound: one sparse subtitle track, libavformat buffering the
+# other streams while it waits for the track's next caption, and the largest
+# audio encoder's output dropped. Bisected - a single subtitle track is
+# enough, and raising either muxing queue limit does not help. The second
+# pass runs no encoders, so there is nothing to starve; it costs one stream
+# copy over the finished file.
+# one of: auto | on | off
+subs_second_pass = "auto"
+
+# After a salvaged rip, run a stream-copy pass with error detection relaxed
+# and timestamps regenerated. This is what makes a damaged file usable: the
+# standing objection to skipping read errors is that the result breaks the
+# next tool - most players and encoders stop AT the corruption rather than
+# playing through it - and this answers it. No re-encode, so minutes not
+# hours, and the original is kept either way because which file is better is
+# a measurement, not an assumption.
+repair_salvaged = true
+
+# How outputs are named. movie = 'Name (Year)/Name (Year).mkv'; tv =
+# 'Show/Season 01/Show - S01E01.mkv'; plain = just the disc label. Both are
+# Plex/Jellyfin-ready.
+naming = "movie"
+
+# Folder and file layout for movies. {name} and {year} are filled in; '/'
+# makes a subfolder.
+movie_template = "{name} ({year})/{name} ({year})"
+
+# Layout used instead when you leave the year blank.
+movie_template_noyear = "{name}/{name}"
+
+# Layout for TV discs. {show}, {season}, {episode} are filled in;
+# {season:02d} pads to two digits.
+tv_template = "{show}/Season {season:02d}/{show} - S{season:02d}E{episode:02d}"
+
+# default season number for tv naming
+season = 1
+
+# Which episode number the first title on this disc is, so disc 2 continues
+# from where disc 1 stopped.
+episode_start = 1
+
+# Add a second, lossy encode after the lossless remux. Off by default - the
+# remux is already the archival copy.
+compress = false
+
+# Which program does the lossy encode. ffmpeg is always present; HandBrake
+# is optional.
+# one of: ffmpeg | handbrake
+encoder_backend = "ffmpeg"
+
+# Codec for the lossy encode. av1 gives the smallest file at a given
+# quality, and on a 2020-or-newer GPU it is also the fastest of the three -
+# minutes a disc rather than the best part of an hour. On the CPU it is the
+# slowest. x265 is the safe middle and plays on more devices; x264 plays on
+# everything but needs about a third more space for the same picture.
+vcodec = "x265"
+
+# CRF/CQ, lower = better (18 near-transparent)
+quality = 18
+
+# How hard the encoder works. Slower presets give a smaller file at
+# identical quality, and take longer.
+# one of: ultrafast | superfast | veryfast | faster | fast | medium | slow |
+# slower | veryslow
+preset = "slow"
+
+# Use the GPU for the lossy encode. Much faster than the CPU and slightly
+# larger at the same quality. 'auto' test-runs each one and picks whichever
+# actually works on this machine.
+# one of: none | auto | nvenc | qsv | amf
+hw = "none"
+
+# Who DECODES the film while the GPU re-encodes it. The encoder was on the
+# GPU and the decoder was not, and on a VC-1 disc - the Lord of the Rings
+# Blu-rays are VC-1 - that made the decoder the whole bottleneck: 5.8x
+# against a 15x encoder. Measured 2x faster on VC-1, 10% on H.264, and the
+# same pixels out. 'auto' means cuda when an NVIDIA encoder was found,
+# because cuda is the only one measured here; ask for d3d11va or qsv by name
+# on Intel or AMD. Always off for a salvaged film, whatever this says: the
+# software decoder's hole concealment is worth 12 dB and the GPU has none.
+# one of: auto | off | cuda | d3d11va | dxva2 | qsv
+hw_decode = "auto"
+
+# DVDs are often interlaced, which looks combed on a modern screen. 'auto'
+# detects it and only fixes it when needed.
+# one of: auto | on | off
+deinterlace = "auto"
+
+# Undo 3:2 pulldown. Film runs at 24 frames a second and NTSC video at
+# 29.97, so a film on an NTSC disc has had each frame cut into fields and
+# dealt out 3-2-3-2. Reversing it recovers the original frames exactly: a
+# fifth fewer to encode, and sharper, because the alternative is a
+# deinterlacer inventing half the lines. 'auto' does it only where the
+# cadence shows, in the fields or in whole repeated frames - doing it to
+# video really shot at 30 would throw away one frame in five of real motion.
+# one of: auto | on | off
+telecine = "auto"
+
+# 0 = keep resolution, else e.g. 1080
+max_height = 0
+
+# What the encoder optimises for. 'grain' keeps film grain and DVD noise
+# instead of smoothing them away - measured better per byte than spending
+# the same bytes on a lower CRF, on live action, hand-drawn animation and CG
+# alike. 'animation' was measured worse than either on all three, including
+# animation.
+# one of: none | grain | animation | psnr | ssim
+tune = "none"
+
+# Encode at ten bits even though the disc is eight. Not for more colours -
+# there are none - but because the encoder rounds less at every step, which
+# is what stops the flat gradients on a DVD banding. Measured on a real film
+# it is 4.3% SMALLER and scores slightly better - but it defaults to 8
+# anyway, because a 10-bit AV1 encode played back black on a player that
+# handles the 8-bit one perfectly well. Set this to 10 only if you have
+# checked that what you watch on can show it. 'auto' uses 10-bit wherever
+# the chosen encoder has it.
+bit_depth = "8"
+
+# AV1 only, and only on the software encoder: model the grain, encode the
+# picture without it, and have the player paint matching grain back on. A
+# large saving on grainy live action, which is where the bits go. 8 for live
+# action, 4 for clean animation, 0 for off. Note that it makes quality
+# metrics unreliable - the grain is deliberately not the same grain, so a
+# pixel comparison marks it wrong.
+film_grain = "auto"
+
+# Instead of one quality number for every film, find the highest CRF - the
+# smallest file - that still measures as good as the target on this film. A
+# grainy live action feature and a clean animated one do not want the same
+# number. Sampled rather than full, so it costs a minute or two, and
+# video.quality is both the starting point and the ceiling.
+crf_search = true
+
+# Whether to judge the encode by eye rather than by a metric. The quality
+# search picks the CRF that scores VMAF 90 or better, and that target is a
+# number from a paper - not your eyes on your screen with your films. 'once'
+# runs the comparison one time and uses your answer for everything
+# afterwards, portable rips included. 'each' offers it per film, on a clip
+# from that film, which is more work but catches the case where one film
+# needs more bits than another. Either way it encodes the same passage at
+# several CRFs and shows them side by side with their sizes, and it picks
+# the busiest passage in the film unless you choose one - a quiet dialogue
+# scene looks identical at every setting and would flatter all of them.
+calibrate = "off"
+
+# the CRF you chose when you last calibrated
+calibrated_crf = 0
+
+# how many seconds of film each trial encode uses while calibrating CRF.
+calibrate_seconds = 12
+
+# which CRF values to try while calibrating, comma or space separated. Blank
+# chooses the ladder automatically.
+calibrate_crfs = ""
+
+# How to judge it. 'auto' means VMAF, for everything. SSIMULACRA2 is wired
+# up and works - set it here - but it is not what auto picks, because on DVD
+# material it swings 40 points across passages of one film at identical
+# encoder settings where VMAF swings 4, so no one target means the same
+# thing twice. Its own transparency point is 90 if you want to try it. VMAF
+# is measured with both sides at 1080p, which is what its model assumes;
+# measured at DVD size it reads far too low.
+# one of: auto | vmaf | xpsnr | ssimulacra2
+crf_metric = "auto"
+
+# The score to reach. 0 means the built-in default: VMAF 90, SSIMULACRA2 90,
+# XPSNR 41. VMAF's is 90 rather than the 95 usually quoted, because 95 was
+# measured to be both unreachable on half of a real sample - CRF 19 scored
+# 91.95 on the worst of six DVD masters, so the search returned CRF 19
+# having chosen nothing - and stricter than one viewer's eyes: on the
+# hardest close-up passage of those six, in a blind test with the file sizes
+# padded equal, CRF 28 was ranked above CRF 19. Raise it to 92 for files
+# about 31% smaller than the old 95 behaviour, leave it at 90 for about 51%,
+# drop it to 88 for about 63%.
+crf_target = 0
+
+# How many passages to test. More is steadier and slower; three across the
+# middle of the film is usually enough to spot a grainy one.
+crf_samples = 3
+
+# adaptive quantisation: off | same_size. AQ moves bits into flat and dark
+# areas to stop banding and takes them out of detailed ones. 'same_size'
+# turns it on and then RAISES the CRF until the predicted file is the size
+# it was without it, so the picture is redistributed rather than enlarged -
+# left unpriced it costs +24.9% at matched VMAF, and +113% on the flattest
+# passage measured. It is applied after the quality search, never during: AQ
+# lowers VMAF by design, so a search run with it on buys back an invisible
+# loss with real bitrate.
+aq = "same_size"
+
+# 1-15, default 8. Above about 8 it starts blurring edges.
+aq_strength = 8
+
+# How long each sampled passage is.
+crf_sample_seconds = 12
+
+# CRF for HD sources - a Blu-ray is eight times the pixels of a DVD and does
+# not want the same number. 0 = use video.quality for HD as well.
+hd_quality = 19
+
+# Encoder preset for HD sources. Blank = use video.preset. 1080p at 'slow'
+# is hours per film; 'medium' is about twice as fast for very little.
+# one of: ultrafast | superfast | veryfast | faster | fast | medium | slow |
+# slower | veryslow
+hd_preset = "medium"
+
+# Cut the black borders out of the picture. A 2.40:1 film on a 16:9 disc
+# stores a quarter of every frame as black rows - real pixels, costing real
+# bitrate, that no player can zoom past cleanly. 'auto' trims a border worth
+# trimming and says what it found; 'on' trims whatever it detects even when
+# that is most of the frame. Re-encode only: a remux copies the streams.
+# one of: auto | on | off
+trim_bars = "auto"
+
+# The shape to fit the picture to, like a TV's picture-size control. A ratio
+# (16:9, 4:3, 21:9, 2.40:1) keeps roughly the pixels it has; an exact size
+# (1920x1080) scales to it. 'source' leaves the shape alone - which, with
+# trim_bars on, is usually what you want, because the player can then zoom
+# properly itself.
+screen = "source"
+
+# How to reconcile a picture with a screen it does not match. 'pad' adds
+# black bars and loses nothing. 'crop' zooms until the screen is full and
+# cuts the edges off - the TV Zoom button, and it really does throw picture
+# away. 'stretch' distorts to fill.
+fit = "pad"
+
+# Audio in the lossy encode. 'copy' keeps the disc's original lossless track
+# (TrueHD/DTS-HD) untouched. 'flac' re-packs it losslessly and comes out
+# SMALLER than the original: measured against a real DTS-HD MA, FLAC was
+# 53.9% of raw PCM where the DTS-HD MA was 90.0%, and both decoded to the
+# same bytes - 0.93 GiB against 1.47 GiB on a 101-minute film, for no change
+# to the audio whatsoever. 'opus' is the aggressive option at about a tenth
+# of that, and is a real trade rather than a free one. Atmos and DTS:X
+# survive 'copy' alone - any decode flattens them, FLAC included.
+# one of: copy | flac | opus | aac
+acodec = "copy"
+
+# Bitrate per audio stream, used only when re-encoding audio (ignored when
+# acodec is 'copy').
+abitrate = 160
+
+# keep the lossless remux beside an encode
+keep_original = true
+
+# write MakeMKV's own debug log (exact failing sector)
+makemkv_debug = false
+
+# Extra flags passed straight to makemkvcon. An escape hatch; normally
+# empty.
+makemkv_args = ""
+
+# Extra flags passed straight to ffmpeg when encoding.
+ffmpeg_args = ""
+
+# Extra flags passed straight to HandBrakeCLI.
+handbrake_args = ""
+
+
+[data]
+# Where disc images and copied files go.
+out_dir = "~/Documents/DiscImages"
+
+# iso = one bit-exact image of the whole disc, hashed as it is read. copy =
+# pull the files out into a folder.
+mode = "iso"
+
+# A disc too big to be a CD that Windows cannot mount is a film whose
+# filesystem will not read. On, it goes to salvage - keys first, then an
+# image with a mapfile. Off, it is dumped bit-exact, which gives an image
+# with no keys and nothing to resume from.
+salvage_video_discs = true
+
+
+[alerts]
+# master switch for all sounds and notifications
+enabled = true
+
+# Fires once each time a disc is inserted.
+# one of: both | sound | notify | none
+on_disc_detected = "sound"
+
+# Fires when the disc has been read in and its titles are known - the point
+# where a long rip is about to start.
+# one of: both | sound | notify | none
+on_scan_done = "sound"
+
+# Fires when the engine has finished pulling the data off the disc. On a DVD
+# this is the long one: MakeMKV calls it 'Decrypting data' and decrypts and
+# writes in a single pass, so it ends when the title does.
+# one of: both | sound | notify | none
+on_decrypt_done = "sound"
+
+# Fires when the engine finishes a stage that is none of the ones above. A
+# DVD has no such stage - 'Scanning CD-ROM devices', 'Opening DVD disc' and
+# 'Decrypting data' are all of them - so this is silent on one. It is here
+# for Blu-ray, which adds stages a DVD never needed, and for a stage a
+# future MakeMKV renames.
+# one of: both | sound | notify | none
+on_stage_done = "sound"
+
+# Fires only when files were actually written.
+# one of: both | sound | notify | none
+on_rip_finished = "sound"
+
+# Fires when a rip stops making progress. The one worth leaving switched on.
+# one of: both | sound | notify | none
+on_stall = "notify"
+
+# the drive dropped off the bus and only a physical replug brings it back:
+# both | sound | notify | none. Loud by default - it is the one alert whose
+# fix needs a person at the machine.
+on_drive_lost = "both"
+
+# the drive answered again after being lost: both | sound | notify | none
+on_drive_back = "sound"
+
+# Fires when a disc produces nothing.
+# one of: both | sound | notify | none
+on_failure = "both"
+
+# The end of a whole run, as against the end of one item in it: the last
+# film of a batch, the last disc of an auto-rip. Forty chimes and one
+# fanfare, and this is the fanfare.
+# one of: both | sound | notify | none
+on_all_done = "both"
+
+# what to do when the rip stops and waits for you: off | sound | notify |
+# both.
+# one of: both | sound | notify | none
+on_needs_answer = "both"
+
+# periodic 'still going' cue: both | sound | notify | none
+on_progress = "none"
+
+# Whether the every-N% cue fires during an encode as well as during a rip.
+# Off: a GPU encode is ninety seconds off a file that has already read
+# cleanly once, so ten beeps in a minute and a half is noise about something
+# that cannot go wrong quietly. A rip is twenty minutes off a disc that can.
+progress_on_encode = false
+
+# fire on_progress every N% (10 = at 10, 20, 30 ... 100); 0 turns it off
+progress_every_percent = 10
+
+# Which stages of a rip get the periodic cue, matched as lowercase pieces of
+# the engine's own name for the job. Empty means all of them. 'saving' is
+# the part that writes the titles out, and the only part long and steady
+# enough for a cue every 10% to mean anything.
+progress_stages = "saving"
+
+# seconds without progress before a stall alert
+stall_seconds = 300
+
+# how long a title rip may keep grinding after the drive has already
+# reported a read error before it gives up and hands over to salvage. Of
+# every title that ground on past a read error, 0 finished and 19 failed -
+# and a failed title rip keeps nothing, where salvage keeps every sector it
+# reads. 0 leaves it to MakeMKV.
+title_grind_minutes = 5
+
+# seconds before a re-encode counts as stalled; 0 = never (the default)
+encode_stall_seconds = 0
+
+# how long an engine may be completely silent before it has reported any
+# progress (MakeMKV reads disc structure for minutes)
+startup_grace_seconds = 900
+
+# log every progress tick and show full stall diagnostics
+stall_debug = false
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "DVD detected in drive D. Test
+# Disc.". 'voice: your own words' says that instead, with {name} {pct}
+# {minutes} {titles} {drive} filled in.
+sound_disc_detected = "DeviceConnect"
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "Test Disc has 3 titles ready to
+# rip.". 'voice: your own words' says that instead, with {name} {pct}
+# {minutes} {titles} {drive} filled in.
+sound_scan_done = "Notification.SMS"
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "The data is off Test Disc.".
+# 'voice: your own words' says that instead, with {name} {pct} {minutes}
+# {titles} {drive} filled in.
+sound_decrypt_done = "Notification.SMS"
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "Test Disc has finished a
+# stage.". 'voice: your own words' says that instead, with {name} {pct}
+# {minutes} {titles} {drive} filled in.
+sound_stage_done = "Notification.Default"
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "Test Disc has successfully
+# finished ripping.". 'voice: your own words' says that instead, with {name}
+# {pct} {minutes} {titles} {drive} filled in.
+sound_rip_finished = "Notification.Mail"
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "Test Disc is reading hard at 45
+# percent, retrying for 4 minutes. This usually gets through.". 'voice: your
+# own words' says that instead, with {name} {pct} {minutes} {titles} {drive}
+# filled in.
+sound_stall = "Notification.Reminder"
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "The disc drive has stopped
+# responding. Unplug it and plug it back in - the rip carries on from where
+# it stopped.". 'voice: your own words' says that instead, with {name} {pct}
+# {minutes} {titles} {drive} filled in.
+sound_drive_lost = "DeviceDisconnect"
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "The drive is back. Carrying
+# on.". 'voice: your own words' says that instead, with {name} {pct}
+# {minutes} {titles} {drive} filled in.
+sound_drive_back = "Notification.Default"
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "Disc Ripper is unable to
+# process Test Disc.". 'voice: your own words' says that instead, with
+# {name} {pct} {minutes} {titles} {drive} filled in.
+sound_failure = "SystemHand"
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "45 percent complete.". 'voice:
+# your own words' says that instead, with {name} {pct} {minutes} {titles}
+# {drive} filled in.
+sound_progress = "Notification.IM"
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "All done. 38 files finished.".
+# 'voice: your own words' says that instead, with {name} {pct} {minutes}
+# {titles} {drive} filled in.
+sound_all_done = "WindowsLogon"
+
+# A name from your Windows sound scheme (DeviceConnect, DeviceFail,
+# Notification.Default, Notification.Reminder, SystemHand,
+# Notification.Looping.Alarm2 ...), the path to your own .wav file, or
+# 'voice' to have it said out loud instead: "Disc Ripper. needs answer.".
+# 'voice: your own words' says that instead, with {name} {pct} {minutes}
+# {titles} {drive} filled in.
+sound_needs_answer = "Notification.Looping.Alarm"
+
+# How loud every alert is, sounds and voice alike. The number is loudness
+# rather than amplitude - 50 really is about half as loud - and 0 is
+# silence.
+volume = 100
+
+# Which installed speech voice reads the alerts set to 'voice'. A substring
+# is enough: 'Zira' finds 'Microsoft Zira Desktop'. Empty uses the Windows
+# default voice. Run 'rip voices' to hear the ones you have.
+voice = ""
+
+# How fast the voice reads, -10 to 10. 0 is its normal pace; the built-in
+# lines are short, so slower is usually clearer across a room.
+voice_rate = 0

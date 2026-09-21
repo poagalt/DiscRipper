@@ -1,0 +1,29 @@
+# Third-party binaries (ffmpeg, MakeMKV, HandBrake), the embedded
+# Python runtime, downloaded alert sounds and run logs stay local. The
+# settings point at sounds/, so the paths are in the repo and the audio
+# is not - publishing somebody else's music is not this repo's business.
+
+tools/
+sounds/
+python/
+logs/
+# quieter copies of the alert sounds, rendered on demand from files
+# that are not in here either
+soundcache/
+__pycache__/
+*.pyc
+*.log
+# Real disc fragments kept as test fixtures - see .testdata/README.md.
+# Small, but still disc content, so they stay out of the repo.
+.testdata/
+config.toml.bak
+
+# The live config and the drive's own journal are per-machine state. config.toml
+# carries an out_dir with somebody's username in it; dead-sectors.json is keyed
+# by disc label and sector count, so a shared copy hands a stranger a standing
+# refusal to read sectors of their own film. Both are created at runtime;
+# config.example.toml is the one that ships.
+config.toml
+dead-sectors.json
+# Agent skills, not project source.
+.claude/

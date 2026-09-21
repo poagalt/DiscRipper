@@ -1,0 +1,8 @@
+This file makes the install portable: DiscRipper keeps its config, its logs and
+its downloaded engines inside this folder instead of in %APPDATA%, so the whole
+directory can be copied to another machine or carried on a stick and still work.
+
+Delete it to have config and logs live in %APPDATA%\DiscRipper instead.
+
+(This is not the same thing as the "Portable" rip mode on the Rip tab, which is
+about the output - a small re-encoded viewing copy rather than an exact one.)
